@@ -102,6 +102,7 @@ class Group:
                 i += 1
         return expanded_word
     def collect_powers(self, word):
+        superscript_map = {0: "⁰", 1: "¹", 2: "²", 3: "³", 4: "⁴", 5: "⁵", 6: "⁶",7: "⁷", 8: "⁸", 9: "⁹"}
         collected_word = ""
         i = 0
         while i < len(word):
@@ -111,9 +112,10 @@ class Group:
                 i += 1
             if count == 1:
                 collected_word += word[i]
+                i += 1
             else:
-                collected_word += word[i] + "^" + str(count)
-            i += 2
+                collected_word += word[i] + superscript_map[count]
+                i += 1
         return collected_word
 
     def simplify(self, word, constraints):
@@ -124,7 +126,7 @@ class Group:
         if word == original_word:
             return self.collect_powers(word)
         else:
-            return self.simplify(word, constraints)
+            return self.collect_powers(self.simplify(word, constraints))
 
     def multiplication_table(self):
         table = []
@@ -179,6 +181,6 @@ class Group:
         
 
 
-fourth_roots_of_unity = Group("<i|i^4=1>",abelian=True,identity_symbol="1")
-print("Order:",fourth_roots_of_unity.order)
-print(fourth_roots_of_unity)
+g = Group("<a,b|a^4=e,b^2=a,ab=ba>")
+print("Order:",g.order)
+print(g)
