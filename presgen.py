@@ -1,4 +1,3 @@
-
 class Group:
     
     def __init__(self,presentation_string):
@@ -52,13 +51,15 @@ class Group:
                 if a=="":
                     a = "e"
                     break
-            constraints[i] = a + "=" + b
+            if a=="e" or (not b=="e" and a<b):
+                constraints[i] = b + "=" + a
+            else:
+                constraints[i] = a + "=" + b
         
         constraints.append("ee=e")
         for a in alphabet:
             constraints.append(f'{a}e={a}')
             constraints.append(f'e{a}={a}')
-        print(*constraints)
         return constraints
         
     def satisfies_constraints(self, word, constraints):
